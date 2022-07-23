@@ -1,6 +1,6 @@
 bool isValid(vector<vector<int>> &mat, vector<int> &colour, int c, int node, int sz)
 {
-    for(int i = 0; i < mat.size(); i++)
+    for(int i = 0; i < sz; i++)
     {
         if(i != node && mat[node][i] == 1 && colour[i] == c)
         {
