@@ -1,45 +1,52 @@
-bool canDistribute(vector<int>&arr, int barrier, int k, int sz)
+#include <bits/stdc++.h>
+using namespace std;
+
+bool canPlace(vector<int> pos, int c, int dist)
 {
-    int pages = 0, studentNum = 1;
-    for(int i = 0; i < sz; i++)
+    int cows = 1, idx = 0;
+    for (int i = 1; i < pos.size(); i++)
     {
-        if((arr[i] + pages) > barrier) 
+        if (pos[i] - pos[idx] >= dist)
         {
-            studentNum++;
-            pages = arr[i];
-        }
-        else
-        {
-            pages += arr[i];
+            cows++;
+            idx = i;
         }
     }
-    
-    return studentNum <= k;
+    return cows >= c;
 }
 
-int Solution::books(vector<int> &A, int B) {
-    if(B > A.size()) return -1;
-    int low = *max_element(A.begin(), A.end()), high = 0;
-    
-    for(int i = 0; i < A.size(); i++){
-        high += A[i];
-    }
-    
-    int res = -1;
-    
-    while(low <= high)
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
     {
-        int mid = (low + high) >> 1;
-        
-        if(canDistribute(A, mid, B, A.size()))
+        int n, c;
+        cin >> n >> c;
+        vector<int> pos(n);
+        for (int &i : pos)
         {
-            res = mid;
-            high = mid - 1;
+            cin >> i;
         }
-        else
+        sort(pos.begin(), pos.end());
+        int low = pos[0], high = pos[n - 1] - pos[0];
+
+        int res = -1;
+
+        while (low <= high)
         {
-            low = mid + 1;
+            int mid = (low + high) >> 1;
+
+            if (canPlace(pos, c, mid))
+            {
+                res = mid;
+                low = mid + 1;
+            }
+            else
+                high = mid - 1;
         }
+
+        cout << res << "\n";
     }
-    return res;
+    return 0;
 }
